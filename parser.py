@@ -110,7 +110,7 @@ class Lexer:
             if output != None:
                 res.append((part[:-1].strip(), output))
                 part = i.strip()
-        
+
         return res
 
 
@@ -215,13 +215,13 @@ class Parser:
             "=": [""],
             "?": [""],
             "$": [""],
-        }
+        },
     }
 
     def __init__(self, debug=False):
         self.debug = debug
         self.last_output = ""
-    
+
     def parse(self, inp):
         self.inp = inp
         l = Lexer()
@@ -229,7 +229,7 @@ class Parser:
         tokens.append(("$", "lit"))
         stack = ["S"]
         pos = 0
-        while len(tokens) > 0: 
+        while len(tokens) > 0:
             if self.debug:
                 print(stack)
                 print(tokens)
@@ -243,18 +243,18 @@ class Parser:
                 break
             else:
                 if stack[pos] in Parser.nonterminals:
-                    if tokens[0][1] == 'lit':
+                    if tokens[0][1] == "lit":
                         lookahead = self.rules[stack[pos]][tokens[0][0]]
                     else:
                         lookahead = self.rules[stack[pos]][tokens[0][1]]
                     if lookahead != False:
-                        stack[pos:pos+1] = lookahead
+                        stack[pos : pos + 1] = lookahead
                     else:
                         print("parse error")
                         break
                 else:
                     if stack[pos] == "":
-                        if tokens[0][0] == "$" and pos == len(stack)-1:
+                        if tokens[0][0] == "$" and pos == len(stack) - 1:
                             del tokens[0]
                         del stack[pos]
                     elif stack[pos] in Parser.terminals:
